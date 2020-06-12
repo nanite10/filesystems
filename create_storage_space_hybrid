@@ -1,0 +1,4 @@
+New-StoragePool -FriendlyName HybridPool -StorageSubSystemFriendlyName (Get-StorageSubSystem).FriendlyName -PhysicalDisks (Get-PhysicalDisk -CanPool $True)
+$ssd_tier = New-StorageTier -StoragePoolFriendlyName HybridPool -FriendlyName SSDTier -MediaType SSD
+$hdd_tier = New-StorageTier -StoragePoolFriendlyName HybridPool -FriendlyName HDDTier -MediaType HDD
+$vd = New-VirtualDisk -StoragePoolFriendlyName HybridPool -FriendlyName HybridVD -StorageTiers @($ssd_tier,$hdd_tier) -StorageTierSizes @(440GB, 2000GB) -ResiliencySettingName Parity -WriteCacheSize 2GB
