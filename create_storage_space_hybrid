@@ -1,14 +1,16 @@
-SSD Pool
+#SSD Pool
 $SSD=Get-PhysicalDisk -CanPool $True | Where-Object MediaType -eq SSD
 New-StoragePool -FriendlyName SSDPool -StorageSubSystemFriendlyName (Get-StorageSubSystem).FriendlyName -PhysicalDisks $SSD
 New-VirtualDisk -StoragePoolFriendlyName SSDPool -FriendlyName SSDVD -ResiliencySettingName Mirror -UseMaximumSize
 
-HDD Pool
+#HDD Pool
 $HDD=Get-PhysicalDisk -CanPool $True | Where-Object MediaType -eq HDD
 New-StoragePool -FriendlyName HDDPool -StorageSubSystemFriendlyName (Get-StorageSubSystem).FriendlyName -PhysicalDisks $HDD
 New-VirtualDisk -StoragePoolFriendlyName HDDPool -FriendlyName HDDVD -ResiliencySettingName Mirror -UseMaximumSize
+#RAID0 maximum size across four disks
+New-VirtualDisk -StoragePoolFriendlyName HDDPool -FriendlyName HDDVD -ResiliencySettingName Simple -NumberOfColumns 4 -ProvisioningType Thin -Size 5400GB -ColumnIsolation PhysicalDisk
 
-Hybrid
+#Hybrid
 New-StoragePool -FriendlyName HybridPool -StorageSubSystemFriendlyName (Get-StorageSubSystem).FriendlyName -PhysicalDisks (Get-PhysicalDisk -CanPool $True)
 $ssd_tier = New-StorageTier -StoragePoolFriendlyName HybridPool -FriendlyName SSDTier -MediaType SSD
 $hdd_tier = New-StorageTier -StoragePoolFriendlyName HybridPool -FriendlyName HDDTier -MediaType HDD
