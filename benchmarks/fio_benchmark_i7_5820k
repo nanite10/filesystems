@@ -1,0 +1,10 @@
+# Windows
+fio_directory_path="/mnt/d/fiotest"
+fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=10G --ioengine=pvsync2
+fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=128K --iodepth=1 --numjobs=1 --name=test --size=64G --ioengine=pvsync2
+fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=512K --iodepth=1 --numjobs=1 --name=test --size=64G --ioengine=pvsync2
+fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=10G --ioengine=pvsync2
+fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=128K --iodepth=1 --numjobs=1 --name=test --size=64G --ioengine=pvsync2
+fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=512K --iodepth=1 --numjobs=1 --name=test --size=64G --ioengine=pvsync2
+
+# Linux
