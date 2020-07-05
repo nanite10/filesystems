@@ -1,0 +1,12 @@
+Storage Spaces
+ResiliencySettingName             : Simple
+PhysicalSectorSize                : 4096
+Size                              : 5798205849600
+NumberOfColumns                   : 4
+
+Number FriendlyName        SerialNumber     MediaType   CanPool OperationalStatus HealthStatus Usage            Size
+------ ------------        ------------     ---------   ------- ----------------- ------------ -----            ----
+2      TOSHIBA HDWD120     Y6RZ459AS        HDD         False   OK                Healthy      Auto-Select   1.82 TB
+3      TOSHIBA HDWD120     8641Z23GS        HDD         False   OK                Healthy      Auto-Select   1.82 TB
+0      ST750LX003-1AC154   W2007R94         HDD         False   OK                Healthy      Auto-Select 698.64 GB
+1      ST3750526AS         9WK4SJQ8         HDD         False   OK                Healthy      Auto-Select 698.64 GB
