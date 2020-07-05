@@ -1,12 +1,16 @@
 # Windows
-fio_directory_path="/mnt/d/fiotest"; 
-fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=8G --ioengine=pvsync2; 
-rm -f /mnt/d/fiotest/test*; sync; 
-fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=1M --iodepth=1 --numjobs=1 --name=test --size=32G --ioengine=pvsync2; 
-rm -f /mnt/d/fiotest/test*; sync; 
-fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=8G --ioengine=pvsync2; 
-rm -f /mnt/d/fiotest/test*; sync; 
-fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=1M --iodepth=1 --numjobs=1 --name=test --size=32G --ioengine=pvsync2; 
-rm -f /mnt/d/fiotest/test*; sync; 
+fio_directory_path="/mnt/d/fiotest"
+fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=8G --ioengine=pvsync2
+rm -vf "$fio_directory_path"/test*
+sync
+fio --directory="$fio_directory_path" --direct=1 --rw=read --refill_buffers --norandommap --randrepeat=0 --bs=1M --iodepth=1 --numjobs=1 --name=test --size=32G --ioengine=pvsync2
+rm -vf "$fio_directory_path"/test*
+sync
+fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=4K --iodepth=1 --numjobs=1 --name=test --size=8G --ioengine=pvsync2
+rm -vf "$fio_directory_path"/test*
+sync
+fio --directory="$fio_directory_path" --direct=1 --rw=write --refill_buffers --norandommap --randrepeat=0 --bs=1M --iodepth=1 --numjobs=1 --name=test --size=32G --ioengine=pvsync2
+rm -vf "$fio_directory_path"/test*
+sync
 
 # Linux
