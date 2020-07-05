@@ -12,7 +12,11 @@ Number FriendlyName        SerialNumber     MediaType   CanPool OperationalStatu
 1      ST3750526AS         9WK4SJQ8         HDD         False   OK                Healthy      Auto-Select 698.64 GB
 
 Results:
-4K   Read  iodepth 1  numjobs 1  size 8  G:  553 MB/s 7.08    avg µs
-1M   Read  iodepth 1  numjobs 1  size 32 G:  412 MB/s 2426.06 avg µs
-4K   Write iodepth 1  numjobs 1  size 8  G:  449 MB/s 8.07    avg µs
-1M   Write iodepth 1  numjobs 1  size 32 G:  445 MB/s 2177.25 avg µs
+4K Read  iodepth 16 numjobs 4 size 16 G: 173 MB/s
+1M Read  iodepth 16 numjobs 4 size 16 G: 321 MB/s
+4K Write iodepth 16 numjobs 4 size 16 G: 347 MB/s
+1M Write iodepth 16 numjobs 4 size 16 G: 325 MB/s
+
+CrystalDiskMark
+1M Read  iodepth 8  numjobs 1 size 64 G: 458 MB/s
+1M Write iodepth 8  numjobs 1 size 64 G: 421 MB/s
