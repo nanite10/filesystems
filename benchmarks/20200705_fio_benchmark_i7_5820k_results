@@ -10,3 +10,9 @@ Number FriendlyName        SerialNumber     MediaType   CanPool OperationalStatu
 3      TOSHIBA HDWD120     8641Z23GS        HDD         False   OK                Healthy      Auto-Select   1.82 TB
 0      ST750LX003-1AC154   W2007R94         HDD         False   OK                Healthy      Auto-Select 698.64 GB
 1      ST3750526AS         9WK4SJQ8         HDD         False   OK                Healthy      Auto-Select 698.64 GB
+
+Results:
+4K   Read  iodepth 1  numjobs 1  size 8  G:  553 MB/s 7.08    avg µs
+1M   Read  iodepth 1  numjobs 1  size 32 G:  412 MB/s 2426.06 avg µs
+4K   Write iodepth 1  numjobs 1  size 8  G:  449 MB/s 8.07    avg µs
+1M   Write iodepth 1  numjobs 1  size 32 G:  445 MB/s 2177.25 avg µs
