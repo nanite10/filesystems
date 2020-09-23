@@ -117,3 +117,63 @@ uid = root
 hosts allow = cos7s01
 timeout = 9999 transfer
 logging = true
+
+# Run lsyncd with rsh protocol
+/usr/local/sbin/lsyncd -nodaemon /etc/lsyncd/cos7s01_cos7s02_rsync.conf
+
+# Run lsyncd with ssh with sshpass - run_lsyncd.sh
+#!/bin/bash
+
+check_node_available(){
+  for node in $1; do
+    if ! timeout 3 ping -c1 $1 > /dev/null 2>&1; then
+      echo "ERROR: $1: Ping failure"; return 1
+    fi
+
+    if ! timeout 3 sshpass -e ssh -o StrictHostKeyChecking=no "$login_username"@$1 "exit"; then
+      echo "ERROR: $1: SSH failure."; return 1;
+    fi
+  done
+}
+
+get_credentials(){
+  echo -ne "Enter sync username: "
+  read login_username
+  echo -ne "Enter sync password: "
+  read -s SSHPASS
+  export SSHPASS
+  echo -ne "\n"
+}
+
+get_remote_node(){
+  echo -ne "Enter target sync node: "
+  read remote_node
+}
+
+if [ -z "$1" ] || ! [ -e "$1" ]; then
+  echo "ERROR: Please pass in lsyncd configuration file. You passed in \"$1\""
+  exit 1
+fi
+
+if ! which sshpass > /dev/null 2>&1; then
+  echo "ERROR: Please install sshpass"
+  exit 1
+fi
+
+if ! [ -e /usr/local/sbin/lsyncd ]; then
+  echo "ERROR: Please install/compile lsyncd to /usr/local/sbin/lsyncd"
+  exit 1
+fi
+
+if ! [ -e /usr/local/sbin/rsync ]; then
+  echo "ERROR: Please install/compile rsync to /usr/local/sbin/rsync"
+  exit 1
+fi
+
+get_credentials
+get_remote_node
+
+check_node_available "$remote_node"
+if [ $? -ne 0 ]; then echo "ERROR: Failed to contact $remote_node"; exit 1; fi
+
+env RSYNC_RSH="sshpass -p $SSHPASS ssh" /usr/local/sbin/lsyncd -nodaemon "$1"
