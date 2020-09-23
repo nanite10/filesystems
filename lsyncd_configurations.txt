@@ -1,0 +1,119 @@
+#/etc/lsyncd/cos7s01_cos7s02_ssh_rsync.conf
+sync {
+  default.rsync,
+  source="/data",
+  target="cos7s02:/data",
+  rsync={
+    binary = "/usr/local/sbin/rsync",
+    acls = true,
+    archive = true,
+    compress = true,
+    hard_links = true,
+    one_file_system = true,
+    sparse = true,
+    update = true,
+    verbose = true,
+    whole_file = true,
+    xattrs = true,
+    _extra = { "--compress-choice=lz4" }
+  },
+  exclude = { "aquota.user", "aquota.group", "export.info.xml", "rsnapshot", ".zfs" },
+  delay=60
+}
+
+sync {
+  default.rsync,
+  source="/data/test9",
+  target="cos7s02:/data/test9",
+  rsync={
+    binary = "/usr/local/sbin/rsync",
+    acls = true,
+    archive = true,
+    compress = true,
+    hard_links = true,
+    one_file_system = true,
+    sparse = true,
+    update = true,
+    verbose = true,
+    whole_file = true,
+    xattrs = true,
+    _extra = { "--compress-choice=lz4" }
+  },
+  exclude = { "aquota.user", "aquota.group", "export.info.xml", "rsnapshot", ".zfs" },
+  delay=60
+}
+
+#/etc/lsyncd/cos7s01_cos7s02_rsync.conf
+sync {
+  default.rsync,
+  source="/data",
+  target="cos7s02::data",
+  rsync={
+    binary = "/usr/local/sbin/rsync",
+    acls = true,
+    archive = true,
+    compress = true,
+    hard_links = true,
+    one_file_system = true,
+    sparse = true,
+    update = true,
+    verbose = false,
+    whole_file = true,
+    xattrs = true,
+    _extra = { "--compress-choice=lz4" }
+  },
+  exclude = { "aquota.user", "aquota.group", "export.info.xml", "rsnapshot", ".zfs" },
+  delay=60
+}
+
+sync {
+  default.rsync,
+  source="/data/test9",
+  target="cos7s02::data/test9",
+  rsync={
+    binary = "/usr/local/sbin/rsync",
+    acls = true,
+    archive = true,
+    compress = true,
+    hard_links = true,
+    one_file_system = true,
+    sparse = true,
+    update = true,
+    verbose = false,
+    whole_file = true,
+    xattrs = true,
+    _extra = { "--compress-choice=lz4" }
+  },
+  exclude = { "aquota.user", "aquota.group", "export.info.xml", "rsnapshot", ".zfs" },
+  delay=60
+}
+
+# rsyncd server configuration /etc/rsyncd.conf
+# /etc/rsyncd: configuration file for rsync daemon mode
+
+# See rsyncd.conf man page for more options.
+
+# configuration example:
+
+# uid = nobody
+# gid = nobody
+# use chroot = yes
+# max connections = 4
+# pid file = /var/run/rsyncd.pid
+# exclude = lost+found/
+# transfer logging = yes
+# timeout = 900
+# ignore nonreadable = yes
+# dont compress   = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2
+
+# [ftp]
+#        path = /home/ftp
+#        comment = ftp export area
+port = 873
+[data]
+path = /data
+read only = false
+uid = root
+hosts allow = cos7s01
+timeout = 9999 transfer
+logging = true
