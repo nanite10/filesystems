@@ -1,7 +1,7 @@
 #!/bin/bash
 
 show_usage(){
-  echo "parallel_rsync.sh /source_path destination_host::/destination_path <number of concurrent processes>"
+  echo "parallel_rsync.sh /source_path destination_host::/destination_path <number of concurrent processes> \"log_file.txt\""
   echo "NOTE: /source_path must be a directory"
   echo "NOTE: destination_host's target path can either be blank or a specific path:"
   echo "      Blank:                 /source_path/ destination_host::source_path/"
@@ -33,20 +33,22 @@ spawn_job(){
   rsync -rlptgoDHAXx --numeric-ids --exclude='*' --exclude='*/' --rsync-path="mkdir -p \"$parent_structure\" && rsync" "$1" "$2" &
   pid_num="$!"
   job_pids+=("$pid_num")
-  rsync --delete --ignore-errors -rXgAHuSsolxptD --numeric-ids --exclude=\"/*/*\" --exclude aquota.user --exclude aquota.group --exclude export.info.xml --exclude rsnapshot --exclude .zfs --delete --rsync-path="mkdir -p \"$parent_structure\" && rsync" "$1" "$2" &
+  rsync --delete --ignore-errors -rXgAHuSsolxptD --numeric-ids --exclude="/*/*" --exclude aquota.user --exclude aquota.group --exclude export.info.xml --exclude rsnapshot --exclude .zfs --delete --rsync-path="mkdir -p \"$parent_structure\" && rsync" "$1" "$2" &
   pid_num="$!"
   job_pids+=("$pid_num")
+  echo "INFO: Sync started \"$1\" \"$2\"" >> "$log_file"
 }
 
-if [ -z "$1" ] || ! [ -d "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then show_usage; fi
+if [ -z "$1" ] || ! [ -d "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]; then show_usage; fi
 
 source_path="$1"
 destination_target="$2"
 number_processes="$3"
 job_pids=()
 start_time=`date +%s`
+log_file="$4"
 
-echo "INFO: Started parallel_rsync.sh $source_path $destination_target $number_processes $job_pids"
+echo "INFO: Started parallel_rsync.sh $source_path $destination_target $number_processes $job_pids" >> "$log_file"
 
 while read current_source_path; do
   check_processes_running "$number_processes"
@@ -55,4 +57,4 @@ done < <(find "$source_path/" -xdev -type d ! -name .zfs ! -name rsnapshot -prin
 
 end_time=`date +%s`
 total_time=$((end_time-start_time))
-echo "INFO: Finished parallel_rsync.sh $source_path $destination_target $number_processes $job_pids with elapsed time $total_time"
+echo "INFO: Finished parallel_rsync.sh $source_path $destination_target $number_processes $job_pids with elapsed time $total_time" >> "$log_file"
