@@ -23,6 +23,7 @@ remove_duplicates(){
                         total_files_freed=$((total_files_freed+1))
                         total_space_freed=$((total_space_freed+file_size))
                         rm -vf "$full_path"
+                        echo "$full_path" >> "$4"
                         echo "INFO: Total files freed: $total_files_freed Total space freed: $total_space_freed"
                 fi
         done < <(find "$1" -xdev -type f)
@@ -37,7 +38,9 @@ if [ -z "$1" ] || ! [ -d "$1" ] || [ -z "$2" ] || ! [ -d "$2" ]; then show_usage
 
 dedupe_source_path="$1"
 dedupe_destination_path="$2"
-dedupe_log=`date +%s`"_dedupe.log"
+current_time=`date +%s`
+dedupe_log="${current_time}_dedupe.log"
+dedupe_output="${current_time}_dedupe_list.txt"
 
 check_commands "sha512sum"
-remove_duplicates "$dedupe_source_path" "$dedupe_destination_path" "$dedupe_log"
+remove_duplicates "$dedupe_source_path" "$dedupe_destination_path" "$dedupe_log" "$dedupe_output"
